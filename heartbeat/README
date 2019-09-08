@@ -63,5 +63,5 @@ node secondary
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 3. haresources
 ## /etc/ha.d/haresources
-primary 192.168.1.200 apache2
+primary IPaddr::192.168.1.200/24/eth1  apache2
 
