@@ -1,0 +1,67 @@
+files 
+ 1. auathkeys
+ 2. ha.cf
+ 3. haresources
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+hosts file /etc/hosts
+cat /etc/hosts
+192.168.1.101 primary 
+
+
+cat /etc/hosts
+192.168.1.102 secondary 
+
+
+Add /etc/sysctl.conf
+# needed to bind to VIP
+net.ipv4.ip_nonlocal_bind=1
+
+
+# sysctl -p 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. authkeys 
+
+# ( echo -ne "auth 1\n1 sha1 "; \
+dd if=/dev/urandom bs=512 count=1 | openssl md5 ) \
+> /etc/ha.d/authkeys
+# chmod 0600 /etc/ha.d/authkeys
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2. ha.cf
+
+cat /etc/ha.d/ha.cf
+###############################
+# logging
+debugfile /var/log/ha-debug
+
+###############################
+# communication
+autojoin none
+udpport 694
+# the other node
+ucast eth0 192.168.1.101
+udp eth0
+
+###############################
+# thresholds
+warntime 5
+deadtime 15
+initdead 60
+keepalive 2
+
+###############################
+# nodes
+node primary
+node secondary
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3. haresources
+## /etc/ha.d/haresources
+primary 192.168.1.200
+
