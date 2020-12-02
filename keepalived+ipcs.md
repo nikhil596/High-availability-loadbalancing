@@ -31,6 +31,19 @@ Connections from lb1 that holds the VirtualIP to both servers
 
 
 
+[root@dlp ~]# yum -y install ipvsadm keepalived
+# enable IP forward
+
+[root@dlp ~]# echo 'net.ipv4.ip_forward = 1' >> /etc/sysctl.conf
+
+[root@dlp ~]# sysctl -p
+[root@dlp ~]# touch /etc/sysconfig/ipvsadm
+
+[root@dlp ~]# systemctl start ipvsadm
+
+[root@dlp ~]# systemctl enable ipvsadm 
+
+
 # Network Setting 
 
 /etc/sysctl.conf 
