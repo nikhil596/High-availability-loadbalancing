@@ -7,15 +7,23 @@
 Keepalived and IPVS installed on lb1 and lb2  
 VRPP router  ( Virtual-IP  provisined for keepalived ) 
 
-Lb1            Lb2 
-___            ___
-| |  - - - - - | |
----            ---
- |   \          |
-___   \        ___
-| |  - - - - - | |
----            ---
-Real1          Real2 
+                              |
+             +----------------+-----------------+
+             |                                  |
+  10.10.10.10|eth0 --- VIP:10.10.10.10. --- eth0|10.10.10.20
+     +-------+--------+                +--------+-------+
+     | LVS+Keepalived |                | LVS+Keepalived |
+     +-------+--------+                +--------+-------+
+    10.0.0.30|eth1 ----- VIP:10.0.0.29 ---- eth1|10.0.0.31
+             |                                  |
+             +----------------+-----------------+
+                              |
+    +------------+            |             +------------+
+    |  Backend01 |10.10.10.41 |  10.10.10.42|  Backend02 |
+    | Web Server +------------+-------------+ Web Server |
+    |            |eth0                  eth0|            |
+    +------------+                          +------------+
+
 
 Connections from lb1 that holds the VirtualIP to both servers 
 
