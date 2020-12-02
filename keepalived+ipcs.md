@@ -4,6 +4,20 @@
 ```
 
 
+Keepalived and IPVS installed on lb1 and lb2  
+VRPP router  ( Virtual-IP  provisined for keepalived ) 
+
+Lb1            Lb2 
+___            ___
+| |  - - - - - | |
+---            ---
+ |   \          |
+___   \        ___
+| |  - - - - - | |
+---            ---
+Real1          Real2 
+
+Connections from lb1 that holds the VirtualIP to both servers 
 
 
 
