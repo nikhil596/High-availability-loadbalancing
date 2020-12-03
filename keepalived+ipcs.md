@@ -191,3 +191,43 @@ virtual_server 10.10.10.10 80 {
 }
 ```
 
+## Another Config 
+```
+## Add dummy interface to eth0 additionally 
+
+# Brand new config enabling the LVS sync daemon on VI_1 through the 
+# eth0 interface
+global_defs {
+  lvs_sync_daemon_interface eth0 VI_1
+}vrrp_instance VI_1 {
+  state MASTER
+  interface eth0
+  virtual_router_id 50
+  priority 100
+  advert_int 1
+  virtual_ipaddress {
+    10.1.1.20
+  }
+}virtual_server 10.1.1.20 {
+  delay_loop 2
+  lb_algo rr
+  lb_kind dr
+  protocol UDP  real_server 10.1.1.21 {
+    HTTP_GET {
+      url {
+        path “http://10.1.1.21/status"
+        status_code 200
+      }
+      connect_timeout 10
+    }
+  }  real_server 10.1.1.22 {
+    HTTP_GET {
+      url {
+        path “http://10.1.1.22/status"
+        status_code 200
+      }
+      connect_timeout 10
+    }
+  }
+}
+```
